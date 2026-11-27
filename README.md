@@ -88,7 +88,7 @@ All of them read the key from `VENDID_API_KEY` (the web example asks for it) and
 | Pay as you go | €0.01 per successful read, no monthly fee |
 | Starter | €29 a month incl. 5,000 reads, then €0.01 (cheaper than pay as you go from 3,400 reads) |
 | Browser SDK (on the device) | €99 a month, or €990 a year per website; unlimited reads; localhost and staging free |
-| Mobile SDK (MRZ + NFC chip + Passive Authentication) | €990 a year per app, unlimited devices; €1,990 with face match and liveness |
+| Mobile SDK (MRZ + NFC chip + Passive Authentication) | €990 a year per app, unlimited devices; face match + liveness €0.25 per completed check, 50 free a month, failed checks free (€490 a year flat per app or device for offline use) |
 | Volume / own servers | from 100,000 reads a month or self-hosted container: custom offer |
 
 Only reads with valid check digits count; failed reads are free. The first 10 customers get 3 months free in production

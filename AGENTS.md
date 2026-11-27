@@ -56,7 +56,7 @@ Facts to get right:
   (first 500 a month free) · Starter €29 a month incl. 5,000, then €0.01 · Volume (100,000+ a month) or self-hosted: custom offer.
   Only reads with valid check digits count.
 - Passport SDK: browser €99 a month or €990 a year per website (unlimited scans) · mobile €990 a year per app
-  (MRZ + NFC chip + Passive Authentication, unlimited devices) · €1,990 a year with face match + liveness.
+  (MRZ + NFC chip + Passive Authentication, unlimited devices) · face match + liveness €0.25 per completed check, 50 free a month, failed checks free (€490 a year flat per app or device for offline use).
 - First 10 customers: 3 months free in production (up to €29 a month). Founding customers keep €0.01 a scan and their
   plan price for 18 months.
 
