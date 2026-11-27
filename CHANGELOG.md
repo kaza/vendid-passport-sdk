@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-28
+
+- Free plan: past the 500 free scans a month the key keeps working; we contact you about a plan. `429 quota_exceeded` now only at the abuse cap (10,000 calls a month on one key); its `limit` and `used` count calls.
+
 ## 2026-11-27 (night)
 
 - `POST /v1/warmup`: wakes the reading engine (free tier scales to zero when idle; the first read after a quiet spell takes ~7–10 s, then ~0.5 s). Same key, free. Cold-start warning in README, AGENTS.md, llms.txt, docs/api.md, OpenAPI, mcp/README.

@@ -10,7 +10,7 @@ Something missing that you need? [Open an issue](https://github.com/kaza/vendid-
 |---|---|---|
 | ✅ | `POST /v1/mrz` | Passports (TD3), ID cards (TD1), TD2; multipart or raw image; ICAO 9303 check digits verified |
 | ✅ | API keys in 60 seconds | Free key from the form on [vend-id.com/sdk](https://vend-id.com/sdk#get-key), shown at once and e-mailed |
-| ✅ | Free plan with quota | 500 successful reads a month, enforced per key, `429 quota_exceeded` when used up |
+| ✅ | Free plan | 500 successful reads a month; past 500 the key keeps working and we contact you about a plan. `429 quota_exceeded` only at the abuse cap (10,000 calls a month) |
 | ✅ | CORS | Any web origin can call the API from the browser |
 | ✅ | EU hosting, nothing stored | Servers in Belgium; the image is read in memory and dropped |
 | ✅ | Specimen for testing | ICAO specimen reads are free and never count |

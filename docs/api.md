@@ -89,7 +89,7 @@ Every error is JSON with an `error` code.
 | 401 | `invalid_api_key` | A key we do not know | `get_key` |
 | 413 | `body_too_large` | Image over 10 MB | — |
 | 415 | `unsupported_image` | Not a JPEG, PNG or WebP image the reader can decode. Check the file; do not retry | `message` |
-| 429 | `quota_exceeded` | The month's free scans are used up; resets on the 1st (UTC) | `limit`, `used`, `message` |
+| 429 | `quota_exceeded` | Abuse cap only: more than 10,000 calls a month on one key (20 × the free scans); resets on the 1st (UTC). Running past the 500 free scans never answers 429: the key keeps working and we contact you about a plan | `limit`, `used`, `message` |
 | 502 | `engine_unavailable` | The reader did not answer. Retry | `message` |
 
 Failed reads (422) are free. Only reads with valid check digits count.
@@ -99,8 +99,8 @@ Failed reads (422) are free. Only reads with valid check digits count.
 | | |
 |---|---|
 | Image size | 10 MB per request |
-| Free plan | 500 successful reads per calendar month (UTC), no card |
-| All calls, any outcome | at most 20 × the monthly plan per month (10,000 on the free plan), against abuse |
+| Free plan | 500 successful reads per calendar month (UTC), no card. Past 500 the key keeps working; we contact you about a plan |
+| All calls, any outcome | at most 20 × the monthly plan per month (10,000 on the free plan), against abuse: the only 429 |
 | Key requests | 5 per minute per IP |
 | Client timeout | 30 s or more (free-tier cold start ~7–10 s) |
 | Cold start | free / development tier: engine scales to zero when idle, warm ~15 min after the last request; `POST /v1/warmup` wakes it (free). Paid and volume plans: always warm |

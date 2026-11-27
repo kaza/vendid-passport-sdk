@@ -9,7 +9,7 @@ info:
 
     Servers in the EU (Belgium). The image is read in memory and dropped; nothing is stored.
 
-    **Plans:** Free 500 successful scans a month (no card) · Pay as you go €0.01 per successful scan, no monthly fee ·
+    **Plans:** Free 500 successful scans a month (no card; past 500 the key keeps working and we contact you about a plan) · Pay as you go €0.01 per successful scan, no monthly fee ·
     monthly plans and volume offers on https://vend-id.com/sdk. Failed reads (422) are free.
     Get a key in 60 seconds at https://vend-id.com/sdk#get-key.
 
@@ -129,7 +129,7 @@ paths:
             application/json:
               schema: { $ref: '#/components/schemas/UnsupportedImage' }
         '429':
-          description: The month's scans are used up; resets on the 1st (UTC)
+          description: Abuse cap only: more than 10,000 calls a month on one key (20 × the free scans); resets on the 1st (UTC). Running past the 500 free scans never answers 429: the key keeps working and we contact you about a plan
           content:
             application/json:
               schema: { $ref: '#/components/schemas/QuotaExceeded' }
