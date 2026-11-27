@@ -21,7 +21,7 @@ This repository holds working examples and the API reference. The reading engine
 
 ```sh
 export VENDID_API_KEY=vid_...
-curl -o specimen.jpg https://raw.githubusercontent.com/kaza/vendid-passport-sdk/main/examples/specimen.jpg
+curl -o specimen.jpg https://vend-id.com/sdk/specimen.jpg
 curl https://vend-id.com/v1/mrz -H "Authorization: Bearer $VENDID_API_KEY" -F "image=@specimen.jpg"
 ```
 
