@@ -1,0 +1,24 @@
+{
+  "name": "vendid-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for the VendID MRZ API: scan passports and ID cards, prices and docs for AI assistants",
+  "license": "MIT",
+  "type": "module",
+  "bin": { "vendid-mcp": "dist/index.js" },
+  "files": ["dist"],
+  "engines": { "node": ">=18" },
+  "scripts": {
+    "build": "tsc",
+    "prepare": "tsc",
+    "test": "tsc && node --test test/unit.test.mjs",
+    "test:live": "tsc && node --test test/live.test.mjs"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "1.32.2",
+    "zod": "3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "22.19.1",
+    "typescript": "5.9.3"
+  }
+}

@@ -63,7 +63,11 @@ All of them read the key from `VENDID_API_KEY` (the web example asks for it) and
 - [JSON Schema of the response](docs/response.schema.json)
 - [OpenAPI 3.1 spec](openapi/openapi.yaml): import into Postman, Insomnia or a code generator
 - [Postman collection](openapi/vendid-mrz-api.postman_collection.json): set `bearerToken` to your key
-- [Full docs on vend-id.com](https://vend-id.com/sdk/docs) · [llms.txt](https://vend-id.com/llms.txt) for AI coding assistants
+- [Full docs on vend-id.com](https://vend-id.com/sdk/docs)
+- For AI coding assistants: [AGENTS.md](AGENTS.md), [llms.txt](llms.txt), and everything in one file:
+  [vend-id.com/llms-full.txt](https://vend-id.com/llms-full.txt) (recipes for React, Vue, Next.js, PHP, WebViews, field
+  mapping for SES.Hospedajes / Alloggiati Web / SIBA, migration from other SDKs)
+- [MCP server](mcp/): `scan_mrz`, `get_pricing`, `get_docs` for Claude Code, Cursor and other MCP clients
 - [Roadmap](ROADMAP.md): what is live, what comes next
 
 ## Prices
@@ -72,11 +76,13 @@ All of them read the key from `VENDID_API_KEY` (the web example asks for it) and
 |---|---|
 | Free | 500 successful reads a month, no card |
 | Pay as you go | €0.01 per successful read, no monthly fee |
-| Starter | €29 a month incl. 3,000 reads, then €0.01 |
+| Starter | €29 a month incl. 5,000 reads, then €0.01 (cheaper than pay as you go from 3,400 reads) |
 | Browser SDK (on the device) | €99 a month, or €990 a year per website; unlimited reads; localhost and staging free |
 | Mobile SDK (MRZ + NFC chip + Passive Authentication) | €990 a year per app, unlimited devices; €1,990 with face match and liveness |
+| Volume / own servers | from 100,000 reads a month or self-hosted container: custom offer |
 
-Only reads with valid check digits count; failed reads are free. Details and volume offers:
+Only reads with valid check digits count; failed reads are free. The first 10 customers get 3 months free in production
+(up to €29 a month); founding customers keep €0.01 a read and their plan price for 18 months. Details and volume offers:
 [vend-id.com/sdk](https://vend-id.com/sdk).
 
 ## Passport SDK: Android, iOS, Flutter, React Native
