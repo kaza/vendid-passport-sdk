@@ -27,7 +27,7 @@ The engine itself is closed source.
 4. Server only: `POST https://vend-id.com/v1/mrz`, `Authorization: Bearer <key>`, multipart field `image` or a raw
    `image/jpeg|png|webp` body, max 10 MB, timeout 30 s. See `examples/node`, `examples/python`, `examples/curl`.
 5. Handle errors by `error` code: 422 `no_document` | `no_mrz` | `blurry` | `check_digits` (ask for a better photo),
-   401 `missing_api_key` | `invalid_api_key`, 413 `body_too_large`, 429 `quota_exceeded`, 502 `engine_unavailable`
+   401 `missing_api_key` | `invalid_api_key`, 413 `body_too_large`, 415 `unsupported_image` (not an image: fix the file, don't retry), 429 `quota_exceeded`, 502 `engine_unavailable`
    (retry once). In `mrz.js`: `err.code === 'closed'` (user closed), `err.name === 'VendIdMrzTimeoutError'` (25 s).
 6. Test with the ICAO specimen, free and never counted: https://vend-id.com/sdk/specimen.jpg (`examples/specimen.jpg`).
    Expect `ERIKSSON`, `ANNA MARIA`, `L898902C3`, born `1974-08-12`, expired `2012-04-15`, `"specimen": true`.

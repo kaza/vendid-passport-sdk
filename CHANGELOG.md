@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-27 (evening)
+
+- `POST /v1/mrz`: bytes that are not a JPEG, PNG or WebP image now answer 415 `unsupported_image` instead of 502 `engine_unavailable`, so clients do not retry them.
+
 ## 2026-11-27 (later)
 
 - `AGENTS.md` and `llms.txt` for AI coding assistants; the full reference is https://vend-id.com/llms-full.txt.

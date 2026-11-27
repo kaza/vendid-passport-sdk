@@ -32,7 +32,7 @@ try:
     with urllib.request.urlopen(req, timeout=60) as res:
         body = json.load(res)
 except urllib.error.HTTPError as err:
-    # 422: read but no valid MRZ (no_document | no_mrz | blurry | check_digits). 401: key. 429: quota. 502: retry.
+    # 422: read but no valid MRZ (no_document | no_mrz | blurry | check_digits). 401: key. 415: not an image. 429: quota. 502: retry.
     body = json.load(err)
     print(json.dumps(body, indent=2))
     sys.exit(f"HTTP {err.code}: {body.get('error')}")
