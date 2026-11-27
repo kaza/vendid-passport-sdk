@@ -50,4 +50,5 @@ server.registerTool('get_docs', {
   return text(found.map((s) => s.text).join('\n\n'))
 })
 
-await server.connect(new StdioServerTransport())
+// 10 MB images arrive as base64 (+33 %) inside JSON: the SDK's default 10 MiB stdio buffer would drop the connection.
+await server.connect(new StdioServerTransport(process.stdin, process.stdout, { maxBufferSize: 16 * 1024 * 1024 }))

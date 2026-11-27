@@ -14,8 +14,8 @@ The engine itself is closed source.
 ## Add passport scanning to a form: the shortest correct path
 
 1. Key: free at https://vend-id.com/sdk#get-key (shown at once, 500 scans a month free, no card), or
-   `curl https://vend-id.com/api/sdk/signup -H "Content-Type: application/json" -d '{"email":"<the developer's e-mail>","product":"mrz-api","segment":"hotel-pms"}'`
-   (`segment`: `hotel-pms` | `rental` | `kyc-fintech` | `kiosk-access` | `age-check` | `other` + `segment_other`).
+   `curl https://vend-id.com/api/sdk/signup -H "Content-Type: application/json" -d '{"email":"dev@yourcompany.com","product":"mrz-api","segment":"hotel-pms"}'`
+   (use the developer's own e-mail; `segment`: `hotel-pms` | `rental` | `kyc-fintech` | `kiosk-access` | `age-check` | `other` + `segment_other`).
    Keep it in `VENDID_API_KEY` on the server.
 2. Browser: `<script src="https://vend-id.com/sdk/mrz.js"></script>`, then
    `const r = await VendIdMrz.open({ key })` (camera) or `VendIdMrz.scanImage({ key, image: file })` (upload).

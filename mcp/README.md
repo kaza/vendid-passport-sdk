@@ -16,7 +16,7 @@ writes your integration.
 
 ## Install
 
-Node 18 or newer. The server is not on npm; build it from this repository:
+Node 20 or newer. The server is not on npm; build it from this repository:
 
 ```sh
 git clone https://github.com/kaza/vendid-passport-sdk.git

@@ -6,7 +6,7 @@
   "type": "module",
   "bin": { "vendid-mcp": "dist/index.js" },
   "files": ["dist"],
-  "engines": { "node": ">=18" },
+  "engines": { "node": ">=20" },
   "scripts": {
     "build": "tsc",
     "prepare": "tsc",
