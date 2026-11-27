@@ -12,6 +12,11 @@ info:
     **Plans:** Free 500 successful scans a month (no card) · Pay as you go €0.01 per successful scan, no monthly fee ·
     monthly plans and volume offers on https://vend-id.com/sdk. Failed reads (422) are free.
     Get a key in 60 seconds at https://vend-id.com/sdk#get-key.
+
+    > **⚠ Free / development tier: cold start.** The reading engine scales to zero when idle. The first request
+    > after a quiet spell takes **~7–10 s** (warm-up); after that **~0.5 s** per scan. It stays warm ~15 minutes
+    > after the last request. Call `POST /v1/warmup` when your page or app opens, and set client timeouts to
+    > **30 s or more** (`mrz.js` waits 25 s per request). Paid and volume plans: always-warm engine, no cold start.
   termsOfService: https://vend-id.com/dpa
   contact:
     name: VendID (Späti to GO KG, Vienna)
@@ -45,6 +50,9 @@ paths:
 
         The ICAO specimen passport (document number L898902C3, https://vend-id.com/sdk/specimen.jpg) is free and
         answers with `"specimen": true`.
+
+        **Timing:** ~0.5 s warm. Free / development tier: the first call after a quiet spell takes ~7–10 s while the
+        engine starts (see `POST /v1/warmup`). Use a client timeout of 30 s or more.
       requestBody:
         required: true
         content:
@@ -130,6 +138,39 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/EngineUnavailable' }
+  /v1/warmup:
+    post:
+      tags: [MRZ]
+      operationId: warmup
+      summary: Wake the reading engine (free-tier cold start ~7–10 s)
+      description: |
+        On the free / development tier the engine scales to zero when idle, so the first `/v1/mrz` call after a quiet
+        spell takes ~7–10 s. Call this once when your check-in page or scan screen opens (fire and forget) and the
+        engine is warm by the time the user holds up the document. No body. Free: never counted, never billed.
+        CORS is open. Paid and volume plans are always warm.
+      responses:
+        '200':
+          description: Already warm
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/WarmupStatus' }
+              example: { state: ready, eta_ms: 0 }
+        '202':
+          description: Engine starting; ready in about `eta_ms`
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/WarmupStatus' }
+              example: { state: warming, eta_ms: 7000 }
+        '401':
+          description: Missing or unknown API key
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/KeyError' }
+        '502':
+          description: The engine did not answer; retry, or just scan (a read wakes the engine too)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EngineUnavailable' }
 components:
   securitySchemes:
     apiKey:
@@ -138,6 +179,17 @@ components:
       bearerFormat: vid_ + 32 letters and digits
       description: 'Send `Authorization: Bearer vid_…`. Free key at https://vend-id.com/sdk#get-key'
   schemas:
+    WarmupStatus:
+      type: object
+      required: [state, eta_ms]
+      properties:
+        state:
+          type: string
+          enum: [ready, warming, cold, error]
+          description: ready = warm now; warming = starting
+        eta_ms:
+          type: integer
+          description: Expected milliseconds until ready (0 when ready)
     MrzResult:
       type: object
       required: [format, document_type, issuing_state, surname, given_names, document_number, nationality, birth_date,
