@@ -39,7 +39,7 @@ const MESSAGES = {
   check_digits: 'Read, but the check digits do not match. Try a sharper photo.',
   missing_api_key: 'Paste your API key first.',
   invalid_api_key: 'This API key is not valid. Get a new one at vend-id.com/sdk.',
-  quota_exceeded: 'This key has used its free scans for this month.',
+  quota_exceeded: 'This key hit the monthly call limit (10,000). Contact hello@spaetitogo.at.',
   unsupported_image: 'This file is not a photo the reader can open. Use a JPEG, PNG or WebP.',
   engine_unavailable: 'The reader did not answer. Please try again.',
 }

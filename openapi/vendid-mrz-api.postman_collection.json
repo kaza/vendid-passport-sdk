@@ -298,7 +298,7 @@
             },
             {
               "id": "3e023283-6f64-4d7a-b1a4-2b0478c153f9",
-              "name": "The month's scans are used up; resets on the 1st (UTC)",
+              "name": "Abuse cap only: more than 10,000 calls a month on one key (20 × the free scans); resets on the 1st (UTC). Running past the 500 free scans never answers 429: the key keeps working and we contact you about a plan",
               "originalRequest": {
                 "url": {
                   "path": [
