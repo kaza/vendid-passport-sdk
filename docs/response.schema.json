@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/kaza/vendid-passport-sdk/blob/main/docs/response.schema.json",
+  "$id": "https://raw.githubusercontent.com/kaza/vendid-passport-sdk/main/docs/response.schema.json",
   "title": "VendID MRZ API: 200 response of POST /v1/mrz",
   "type": "object",
   "required": ["format", "document_type", "issuing_state", "surname", "given_names", "document_number", "nationality",
