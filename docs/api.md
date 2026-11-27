@@ -3,6 +3,16 @@
 Full docs: [vend-id.com/sdk/docs](https://vend-id.com/sdk/docs). This page is the short version, kept next to the
 examples.
 
+> [!WARNING]
+> **Free / development tier: the first request takes ~7–10 s (warm-up).** The reading engine scales to zero when
+> idle. The first request after a quiet spell takes ~7–10 s; after that ~0.5 s per scan. It stays warm ~15 minutes
+> after the last request.
+>
+> - Call `POST https://vend-id.com/v1/warmup` with your key when your page or app opens (fire and forget; free,
+>   never counted): `fetch('https://vend-id.com/v1/warmup', { method: 'POST', headers: { Authorization: 'Bearer ' + key } })`
+> - Set client timeouts to **30 s or more**. `mrz.js` waits 25 s per request and shows „Starting the reader…" meanwhile.
+> - Paid and volume plans: always-warm engine, no cold start.
+
 ## Request
 
 ```
@@ -59,7 +69,7 @@ Authorization: Bearer vid_...
 | `optional_data` | the optional data field(s), e.g. a personal number |
 | `check_digits` | the ICAO 9303 check digits, recomputed. **A 200 always has all four `true`**: no answer is better than a wrong one |
 | `mrz` | the raw lines as read |
-| `ms` | time on our side in milliseconds (about 0.55 s warm; the first call after a quiet spell takes a few seconds longer) |
+| `ms` | time on our side in milliseconds (about 0.55 s warm; free tier: the first call after a quiet spell ~7–10 s) |
 | `specimen` | only present, `true`, when the ICAO specimen was read. Specimen reads are free and never count |
 
 JSON Schema: [response.schema.json](response.schema.json).
@@ -92,8 +102,20 @@ Failed reads (422) are free. Only reads with valid check digits count.
 | Free plan | 500 successful reads per calendar month (UTC), no card |
 | All calls, any outcome | at most 20 × the monthly plan per month (10,000 on the free plan), against abuse |
 | Key requests | 5 per minute per IP |
+| Client timeout | 30 s or more (free-tier cold start ~7–10 s) |
+| Cold start | free / development tier: engine scales to zero when idle, warm ~15 min after the last request; `POST /v1/warmup` wakes it (free). Paid and volume plans: always warm |
 
 Pay as you go (€0.01 per successful read) and Starter (€29 a month incl. 5,000): [vend-id.com/sdk](https://vend-id.com/sdk).
+
+## POST /v1/warmup
+
+Wakes the engine so the next read is fast. Same Bearer key, no body, free, CORS open.
+
+| Status | Body |
+|---|---|
+| 202 | `{"state":"warming","eta_ms":7000}`: starting, ready in about `eta_ms` |
+| 200 | `{"state":"ready","eta_ms":0}`: already warm |
+| 401 / 502 | as for `/v1/mrz`; on 502 just scan, a read wakes the engine too |
 
 ## mrz.js (browser drop-in)
 

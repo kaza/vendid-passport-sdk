@@ -4,10 +4,20 @@ Read passports and ID cards in your app: send a photo or a camera frame, get the
 JSON, with every ICAO 9303 check digit verified.
 
 - **VendID MRZ API**: `POST https://vend-id.com/v1/mrz`, image in, JSON out, on our servers in the EU (Belgium).
-  Nothing stored. About 0.55 s per read.
+  Nothing stored. About 0.55 s per read (free tier: the first read after a quiet spell ~7–10 s, see below).
 - **`mrz.js`**: one script tag gives any web page a camera scanner that fills your form.
 - **VendID Passport SDK**: the reading on the user's device (browser, Android, iOS, Flutter, React Native), on phones
   also the passport's NFC chip with Passive Authentication. See [the SDK section](#passport-sdk-android-ios-flutter-react-native).
+
+> [!WARNING]
+> **Free / development tier: the first request takes ~7–10 s (warm-up).** The reading engine scales to zero when
+> idle. The first request after a quiet spell takes ~7–10 s; after that ~0.5 s per scan. It stays warm ~15 minutes
+> after the last request.
+>
+> - Call `POST https://vend-id.com/v1/warmup` with your key when your page or app opens (fire and forget; free,
+>   never counted): `fetch('https://vend-id.com/v1/warmup', { method: 'POST', headers: { Authorization: 'Bearer ' + key } })`
+> - Set client timeouts to **30 s or more**. `mrz.js` waits 25 s per request and shows „Starting the reader…" meanwhile.
+> - Paid and volume plans: always-warm engine, no cold start.
 
 This repository holds working examples and the API reference. The reading engine itself is closed source.
 

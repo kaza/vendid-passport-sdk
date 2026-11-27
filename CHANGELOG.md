@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-11-27 (night)
+
+- `POST /v1/warmup`: wakes the reading engine (free tier scales to zero when idle; the first read after a quiet spell takes ~7–10 s, then ~0.5 s). Same key, free. Cold-start warning in README, AGENTS.md, llms.txt, docs/api.md, OpenAPI, mcp/README.
+
 ## 2026-11-27 (evening)
 
 - `POST /v1/mrz`: bytes that are not a JPEG, PNG or WebP image now answer 415 `unsupported_image` instead of 502 `engine_unavailable`, so clients do not retry them.

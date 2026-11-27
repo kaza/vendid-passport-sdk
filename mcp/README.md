@@ -14,6 +14,11 @@ writes your integration.
 `get_pricing` and `get_docs` work without one. Test image: the ICAO specimen at
 [`../examples/specimen.jpg`](../examples/specimen.jpg) (free, never counted).
 
+> [!WARNING]
+> **Free / development tier: the first `scan_mrz` after a quiet spell takes ~7–10 s** while the reading engine
+> starts (it scales to zero when idle and stays warm ~15 minutes after the last request); then ~0.5 s per scan. The
+> server waits up to 30 s per scan. Paid and volume plans: always-warm engine.
+
 ## Install
 
 Node 20 or newer. The server is not on npm; build it from this repository:

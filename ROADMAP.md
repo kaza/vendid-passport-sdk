@@ -14,6 +14,8 @@ Something missing that you need? [Open an issue](https://github.com/kaza/vendid-
 | ✅ | CORS | Any web origin can call the API from the browser |
 | ✅ | EU hosting, nothing stored | Servers in Belgium; the image is read in memory and dropped |
 | ✅ | Specimen for testing | ICAO specimen reads are free and never count |
+| ✅ | `POST /v1/warmup` | Wakes the engine when your page opens; the free tier scales to zero when idle (first read ~7–10 s, then ~0.5 s) |
+| 🔜 | Always-warm engine on paid plans | No cold start on Pay as you go, Starter and Volume |
 | 🔜 | Self-serve billing (Stripe) | Pay as you go €0.01 per read and Starter €29/month, paid by card without a call |
 | 🔜 | Usage dashboard | Calls, successful reads and quota per key; every call is already logged per key |
 | 🔜 | Key management | Revoke and rotate a key yourself, several keys per account |

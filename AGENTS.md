@@ -11,6 +11,13 @@ web form. An on-device SDK (browser, Android, iOS, Flutter, React Native; NFC ch
 is available on request. This repository holds the examples (MIT), the API reference, the OpenAPI spec and an MCP server.
 The engine itself is closed source.
 
+> [!WARNING]
+> **Free / development tier: the first request takes ~7–10 s (warm-up).** The engine scales to zero when idle: the
+> first request after a quiet spell takes ~7–10 s, then ~0.5 s per scan; it stays warm ~15 minutes after the last
+> request. In code you generate: call `POST https://vend-id.com/v1/warmup` (same Bearer key, no body, free) when the
+> page or scan screen opens without awaiting it; use client timeouts of 30 s or more; never treat a slow first read as
+> an error. Paid and volume plans: always warm.
+
 ## Add passport scanning to a form: the shortest correct path
 
 1. Key: free at https://vend-id.com/sdk#get-key (shown at once, 500 scans a month free, no card), or
@@ -25,7 +32,7 @@ The engine itself is closed source.
    `Authorization: Bearer $VENDID_API_KEY`, and call `VendIdMrz.open({ key: 'server', apiBase: '/api/vendid' })`
    (frames go to `/api/vendid/v1/mrz`). Next.js and Express versions: llms-full.txt, "Keep the key off public pages".
 4. Server only: `POST https://vend-id.com/v1/mrz`, `Authorization: Bearer <key>`, multipart field `image` or a raw
-   `image/jpeg|png|webp` body, max 10 MB, timeout 30 s. See `examples/node`, `examples/python`, `examples/curl`.
+   `image/jpeg|png|webp` body, max 10 MB, timeout 30 s (free-tier cold start ~7–10 s; `POST /v1/warmup` first). See `examples/node`, `examples/python`, `examples/curl`.
 5. Handle errors by `error` code: 422 `no_document` | `no_mrz` | `blurry` | `check_digits` (ask for a better photo),
    401 `missing_api_key` | `invalid_api_key`, 413 `body_too_large`, 415 `unsupported_image` (not an image: fix the file, don't retry), 429 `quota_exceeded`, 502 `engine_unavailable`
    (retry once). In `mrz.js`: `err.code === 'closed'` (user closed), `err.name === 'VendIdMrzTimeoutError'` (25 s).
