@@ -77,8 +77,9 @@ Every error is JSON with an `error` code.
 | 400 | `bad_request` | No image in the request | `message` |
 | 401 | `missing_api_key` | No `Authorization: Bearer` header | `get_key` |
 | 401 | `invalid_api_key` | A key we do not know | `get_key` |
+| 413 | `body_too_large` | Image over 10 MB | — |
 | 429 | `quota_exceeded` | The month's free scans are used up; resets on the 1st (UTC) | `limit`, `used`, `message` |
-| 502 | `engine_unavailable` | The reader did not answer. Retry | `message` |
+| 502 | `engine_unavailable` | The reader did not answer. Retry. Also for bytes that are not a decodable JPEG, PNG or WebP | `message` |
 
 Failed reads (422) are free. Only reads with valid check digits count.
 
@@ -91,7 +92,7 @@ Failed reads (422) are free. Only reads with valid check digits count.
 | All calls, any outcome | at most 20 × the monthly plan per month (10,000 on the free plan), against abuse |
 | Key requests | 5 per minute per IP |
 
-Pay as you go (€0.01 per successful read) and Starter (€29 a month incl. 3,000): [vend-id.com/sdk](https://vend-id.com/sdk).
+Pay as you go (€0.01 per successful read) and Starter (€29 a month incl. 5,000): [vend-id.com/sdk](https://vend-id.com/sdk).
 
 ## mrz.js (browser drop-in)
 

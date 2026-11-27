@@ -1,0 +1,29 @@
+# VendID MRZ API and Passport SDK: examples and reference
+
+> Passport and ID card MRZ scanning for developers, by VendID (Späti to GO KG, Vienna, Austria). `POST https://vend-id.com/v1/mrz` with an image returns the machine-readable zone as JSON with every ICAO 9303 check digit verified; `mrz.js` adds a camera scanner to any web form with one script tag. EU servers, nothing stored. Free key in 60 seconds: 500 scans a month free, then €0.01 a scan; Starter €29 a month incl. 5,000. On-device SDK (browser €99/month or €990/year per website; mobile €990/year per app with NFC chip + Passive Authentication, €1,990 with face + liveness). This repository: MIT examples, API reference, OpenAPI, MCP server.
+
+Everything an AI assistant needs in one file (auth, every error, full mrz.js API, recipes for HTML, React, Vue, Next.js, Node, Python, PHP, curl, WebViews, field mapping for SES.Hospedajes, Alloggiati Web, SIBA, migration from BlinkID / Regula / Scanbot / Dynamsoft): https://vend-id.com/llms-full.txt
+
+## Docs
+
+- [AGENTS.md](https://github.com/kaza/vendid-passport-sdk/blob/main/AGENTS.md): the shortest correct path to add passport scanning, facts to get right, prices
+- [API reference](https://github.com/kaza/vendid-passport-sdk/blob/main/docs/api.md): request, response fields, error codes, limits, mrz.js
+- [JSON Schema of the response](https://github.com/kaza/vendid-passport-sdk/blob/main/docs/response.schema.json)
+- [OpenAPI 3.1](https://raw.githubusercontent.com/kaza/vendid-passport-sdk/main/openapi/openapi.yaml) · [Postman collection](https://github.com/kaza/vendid-passport-sdk/blob/main/openapi/vendid-mrz-api.postman_collection.json)
+- [Docs on vend-id.com](https://vend-id.com/sdk/docs) · [Markdown](https://vend-id.com/sdk/docs.md) · [Site index for LLMs](https://vend-id.com/llms.txt)
+
+## Examples (MIT)
+
+- [Web check-in form](https://github.com/kaza/vendid-passport-sdk/tree/main/examples/web-checkin): camera, upload, specimen · [live](https://kaza.github.io/vendid-passport-sdk/examples/web-checkin/)
+- [Node 18+](https://github.com/kaza/vendid-passport-sdk/blob/main/examples/node/scan.mjs) · [Python](https://github.com/kaza/vendid-passport-sdk/blob/main/examples/python/scan.py) · [curl](https://github.com/kaza/vendid-passport-sdk/blob/main/examples/curl/scan.sh)
+- [ICAO specimen passport](https://vend-id.com/sdk/specimen.jpg): free, never counted
+
+## MCP server
+
+- [mcp/](https://github.com/kaza/vendid-passport-sdk/tree/main/mcp): stdio server with `scan_mrz` (image path or base64), `get_pricing`, `get_docs(topic)`; install for Claude Code, Cursor and other MCP clients
+
+## Product and trust
+
+- [Product page, prices, sign-up](https://vend-id.com/sdk) · [Live scanner](https://vend-id.com/sdk/try/)
+- [Trust center](https://vend-id.com/trust) · [Privacy](https://vend-id.com/privacy) · [DPA](https://vend-id.com/dpa) · [Security](https://vend-id.com/security)
+- Contact: hello@spaetitogo.at
