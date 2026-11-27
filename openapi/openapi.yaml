@@ -1,0 +1,228 @@
+openapi: 3.1.0
+info:
+  title: VendID MRZ API
+  version: 1.0.0
+  summary: Passport and ID card MRZ to JSON, every ICAO 9303 check digit verified.
+  description: |
+    Send a photo or a camera frame of a passport (TD3), ID card (TD1) or TD2 document; get the machine-readable
+    zone (MRZ) back as JSON with all ICAO 9303 check digits recomputed. A 200 answer always has valid check digits.
+
+    Servers in the EU (Belgium). The image is read in memory and dropped; nothing is stored.
+
+    **Plans:** Free 500 successful scans a month (no card) · Pay as you go €0.01 per successful scan, no monthly fee ·
+    monthly plans and volume offers on https://vend-id.com/sdk. Failed reads (422) are free.
+    Get a key in 60 seconds at https://vend-id.com/sdk#get-key.
+  termsOfService: https://vend-id.com/dpa
+  contact:
+    name: VendID (Späti to GO KG, Vienna)
+    url: https://vend-id.com/sdk
+  license:
+    name: Proprietary (API); examples MIT
+    url: https://github.com/kaza/vendid-passport-sdk/blob/main/LICENSE
+  x-logo:
+    url: https://vend-id.com/sdk/assets/brand/vendid-logo-300.png
+externalDocs:
+  description: Full docs, mrz.js camera drop-in, examples
+  url: https://vend-id.com/sdk/docs
+servers:
+  - url: https://vend-id.com
+    description: Production (EU, Belgium)
+security:
+  - apiKey: []
+tags:
+  - name: MRZ
+    description: Read the machine-readable zone of passports and ID cards
+paths:
+  /v1/mrz:
+    post:
+      tags: [MRZ]
+      operationId: readMrz
+      summary: Read the MRZ of a passport or ID card image
+      description: |
+        Body: `multipart/form-data` with the image in the field `image` (also accepted: `file`, `frame`), or the raw
+        image bytes with `Content-Type: image/jpeg`, `image/png` or `image/webp`. Max 10 MB. A photo of the data page
+        or a whole camera frame both work: the document is found in the image. CORS is open.
+
+        The ICAO specimen passport (document number L898902C3, https://vend-id.com/sdk/specimen.jpg) is free and
+        answers with `"specimen": true`.
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              required: [image]
+              properties:
+                image:
+                  type: string
+                  format: binary
+                  description: Photo or camera frame showing the document's MRZ
+            encoding:
+              image:
+                contentType: image/jpeg, image/png, image/webp
+          image/jpeg:
+            schema: { type: string, format: binary }
+          image/png:
+            schema: { type: string, format: binary }
+          image/webp:
+            schema: { type: string, format: binary }
+      responses:
+        '200':
+          description: MRZ read; all check digits valid
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MrzResult' }
+              example:
+                format: TD3
+                document_type: P
+                issuing_state: UTO
+                surname: ERIKSSON
+                given_names: ANNA MARIA
+                document_number: L898902C3
+                nationality: UTO
+                birth_date: '1974-08-12'
+                sex: F
+                expiry_date: '2012-04-15'
+                optional_data: ZE184226B
+                check_digits: { document_number: true, birth_date: true, expiry_date: true, composite: true }
+                mrz:
+                  - P<UTOERIKSSON<<ANNA<MARIA<<<<<<<<<<<<<<<<<<<
+                  - L898902C36UTO7408122F1204159ZE184226B<<<<<10
+                ms: 612
+                specimen: true
+        '400':
+          description: No image in the request, or an unreadable multipart body
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/BadRequest' }
+        '401':
+          description: Missing or unknown API key
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/KeyError' }
+        '422':
+          description: The image was read but gave no valid MRZ. Free; does not count toward the quota.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/ReadFailed' }
+        '429':
+          description: The month's scans are used up; resets on the 1st (UTC)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/QuotaExceeded' }
+        '502':
+          description: The reader did not answer; retry
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/EngineUnavailable' }
+components:
+  securitySchemes:
+    apiKey:
+      type: http
+      scheme: bearer
+      bearerFormat: vid_ + 32 letters and digits
+      description: 'Send `Authorization: Bearer vid_…`. Free key at https://vend-id.com/sdk#get-key'
+  schemas:
+    MrzResult:
+      type: object
+      required: [format, document_type, issuing_state, surname, given_names, document_number, nationality, birth_date,
+        sex, expiry_date, optional_data, check_digits, mrz, ms]
+      additionalProperties: false
+      properties:
+        format:
+          type: string
+          enum: [TD1, TD2, TD3]
+          description: TD3 passport (2 lines of 44), TD1 ID card (3 lines of 30), TD2 (2 lines of 36)
+        document_type:
+          type: string
+          description: First 1-2 characters of the MRZ, e.g. P (passport), I, ID, A, C
+        issuing_state:
+          type: string
+          description: ICAO 9303 three-letter code of the issuing state or organisation, e.g. AUT, D, UTO
+        surname:
+          type: string
+          description: Primary identifier, filler '<' turned into spaces
+        given_names:
+          type: string
+          description: Secondary identifier, names separated by single spaces
+        document_number:
+          type: string
+          description: Document number without filler characters
+        nationality:
+          type: string
+          description: ICAO 9303 three-letter nationality code
+        birth_date:
+          type: [string, 'null']
+          format: date
+          description: YYYY-MM-DD; null if the MRZ date does not exist
+        sex:
+          type: string
+          description: F, M, X, or empty when the MRZ has '<' (unspecified)
+        expiry_date:
+          type: [string, 'null']
+          format: date
+          description: YYYY-MM-DD; null if the MRZ date does not exist
+        optional_data:
+          type: string
+          description: Optional data field(s) as printed, e.g. a personal number
+        check_digits:
+          type: object
+          description: ICAO 9303 check digits, recomputed. A 200 answer always has all four true.
+          required: [document_number, birth_date, expiry_date, composite]
+          additionalProperties: false
+          properties:
+            document_number: { type: boolean }
+            birth_date: { type: boolean }
+            expiry_date: { type: boolean }
+            composite: { type: boolean }
+        mrz:
+          type: array
+          items: { type: string }
+          minItems: 2
+          maxItems: 3
+          description: The raw MRZ lines as read
+        ms:
+          type: integer
+          minimum: 0
+          description: Time spent reading on our side, in milliseconds
+        specimen:
+          const: true
+          description: Present only when the ICAO specimen passport (L898902C3) was read; such reads are free
+    BadRequest:
+      type: object
+      required: [error, message]
+      properties:
+        error: { type: string, const: bad_request }
+        message: { type: string }
+    KeyError:
+      type: object
+      required: [error, get_key]
+      properties:
+        error: { type: string, enum: [missing_api_key, invalid_api_key] }
+        get_key: { type: string, format: uri }
+    ReadFailed:
+      type: object
+      required: [error, reason, ms]
+      properties:
+        error:
+          type: string
+          enum: [no_document, no_mrz, blurry, check_digits]
+          description: |
+            no_document: no passport or ID card in the image · no_mrz: document found, MRZ lines not ·
+            blurry: MRZ too blurry · check_digits: read, but the check digits don't match (no result beats a wrong one)
+        reason: { type: [string, 'null'] }
+        ms: { type: integer, minimum: 0 }
+    QuotaExceeded:
+      type: object
+      required: [error, limit, used, message]
+      properties:
+        error: { type: string, const: quota_exceeded }
+        limit: { type: integer }
+        used: { type: integer }
+        message: { type: string }
+    EngineUnavailable:
+      type: object
+      required: [error, message]
+      properties:
+        error: { type: string, const: engine_unavailable }
+        message: { type: string }
