@@ -27,7 +27,7 @@ const body = await res.json()
 
 if (!res.ok) {
   // 422: the image was read but gave no valid MRZ (body.error: no_document | no_mrz | blurry | check_digits).
-  // 401: key missing or unknown. 429: monthly free scans used up. 502: reader unavailable, retry.
+  // 401: key missing or unknown. 415: not a JPEG/PNG/WebP image. 429: monthly free scans used up. 502: reader unavailable, retry.
   console.error(`HTTP ${res.status}: ${body.error}${body.message ? ` (${body.message})` : ''}`)
   console.log(JSON.stringify(body, null, 2))
   process.exit(1)

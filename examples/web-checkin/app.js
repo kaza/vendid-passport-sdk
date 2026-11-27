@@ -40,6 +40,7 @@ const MESSAGES = {
   missing_api_key: 'Paste your API key first.',
   invalid_api_key: 'This API key is not valid. Get a new one at vend-id.com/sdk.',
   quota_exceeded: 'This key has used its free scans for this month.',
+  unsupported_image: 'This file is not a photo the reader can open. Use a JPEG, PNG or WebP.',
   engine_unavailable: 'The reader did not answer. Please try again.',
 }
 function fail(err) {

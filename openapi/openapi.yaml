@@ -115,13 +115,18 @@ paths:
                 properties:
                   error: { type: string, const: body_too_large }
               example: { error: body_too_large }
+        '415':
+          description: The bytes are not a JPEG, PNG or WebP image the reader can decode. Check the file; do not retry the same bytes.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UnsupportedImage' }
         '429':
           description: The month's scans are used up; resets on the 1st (UTC)
           content:
             application/json:
               schema: { $ref: '#/components/schemas/QuotaExceeded' }
         '502':
-          description: The reader did not answer; retry. Also returned for bytes that are not a decodable JPEG, PNG or WebP image
+          description: The reader did not answer; retry
           content:
             application/json:
               schema: { $ref: '#/components/schemas/EngineUnavailable' }
@@ -204,6 +209,15 @@ components:
       properties:
         error: { type: string, const: bad_request }
         message: { type: string }
+    UnsupportedImage:
+      type: object
+      required: [error, message]
+      properties:
+        error: { type: string, const: unsupported_image }
+        message: { type: string }
+      example:
+        error: unsupported_image
+        message: The file is not a JPEG, PNG or WebP image the reader can decode. Check the file; sending it again will not help.
     KeyError:
       type: object
       required: [error, get_key]

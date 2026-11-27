@@ -78,8 +78,9 @@ Every error is JSON with an `error` code.
 | 401 | `missing_api_key` | No `Authorization: Bearer` header | `get_key` |
 | 401 | `invalid_api_key` | A key we do not know | `get_key` |
 | 413 | `body_too_large` | Image over 10 MB | — |
+| 415 | `unsupported_image` | Not a JPEG, PNG or WebP image the reader can decode. Check the file; do not retry | `message` |
 | 429 | `quota_exceeded` | The month's free scans are used up; resets on the 1st (UTC) | `limit`, `used`, `message` |
-| 502 | `engine_unavailable` | The reader did not answer. Retry. Also for bytes that are not a decodable JPEG, PNG or WebP | `message` |
+| 502 | `engine_unavailable` | The reader did not answer. Retry | `message` |
 
 Failed reads (422) are free. Only reads with valid check digits count.
 
