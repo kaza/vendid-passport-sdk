@@ -1,0 +1,457 @@
+{
+  "item": [
+    {
+      "name": "MRZ",
+      "description": "Read the machine-readable zone of passports and ID cards",
+      "item": [
+        {
+          "id": "7fda555b-36a6-4d8a-a1f1-e547e491ef2e",
+          "name": "Read the MRZ of a passport or ID card image",
+          "request": {
+            "name": "Read the MRZ of a passport or ID card image",
+            "description": {
+              "content": "Body: `multipart/form-data` with the image in the field `image` (also accepted: `file`, `frame`), or the raw\nimage bytes with `Content-Type: image/jpeg`, `image/png` or `image/webp`. Max 10 MB. A photo of the data page\nor a whole camera frame both work: the document is found in the image. CORS is open.\n\nThe ICAO specimen passport (document number L898902C3, https://vend-id.com/sdk/specimen.jpg) is free and\nanswers with `\"specimen\": true`.\n",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "v1",
+                "mrz"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "multipart/form-data"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "POST",
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "description": {
+                    "content": "(Required) Photo or camera frame showing the document's MRZ",
+                    "type": "text/plain"
+                  },
+                  "key": "image",
+                  "type": "file",
+                  "contentType": "image/jpeg, image/png, image/webp"
+                }
+              ]
+            },
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c9cf30a7-854e-49eb-9c0c-d03381250e27",
+              "name": "MRZ read; all check digits valid",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "mrz"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Photo or camera frame showing the document's MRZ",
+                        "type": "text/plain"
+                      },
+                      "key": "image",
+                      "type": "file",
+                      "contentType": "image/jpeg, image/png, image/webp"
+                    }
+                  ]
+                }
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"format\": \"TD3\",\n  \"document_type\": \"<string>\",\n  \"issuing_state\": \"<string>\",\n  \"surname\": \"<string>\",\n  \"given_names\": \"<string>\",\n  \"document_number\": \"<string>\",\n  \"nationality\": \"<string>\",\n  \"birth_date\": \"<string,null-date>\",\n  \"sex\": \"<string>\",\n  \"expiry_date\": \"<string,null-date>\",\n  \"optional_data\": \"<string>\",\n  \"check_digits\": {\n    \"document_number\": \"<boolean>\",\n    \"birth_date\": \"<boolean>\",\n    \"expiry_date\": \"<boolean>\",\n    \"composite\": \"<boolean>\"\n  },\n  \"mrz\": [\n    \"<string>\",\n    \"<string>\"\n  ],\n  \"ms\": \"<integer>\",\n  \"specimen\": {\n    \"const\": true,\n    \"description\": \"Present only when the ICAO specimen passport (L898902C3) was read; such reads are free\"\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "d62652a0-6d7b-4905-82e1-8ab517dd4266",
+              "name": "No image in the request, or an unreadable multipart body",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "mrz"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Photo or camera frame showing the document's MRZ",
+                        "type": "text/plain"
+                      },
+                      "key": "image",
+                      "type": "file",
+                      "contentType": "image/jpeg, image/png, image/webp"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c5e4f5b5-ec27-4d6b-b638-976a6d0d836e",
+              "name": "Missing or unknown API key",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "mrz"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Photo or camera frame showing the document's MRZ",
+                        "type": "text/plain"
+                      },
+                      "key": "image",
+                      "type": "file",
+                      "contentType": "image/jpeg, image/png, image/webp"
+                    }
+                  ]
+                }
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"missing_api_key\",\n  \"get_key\": \"<uri>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "c677dbb0-c20c-4ff6-9243-b7a20f4c8155",
+              "name": "The image was read but gave no valid MRZ. Free; does not count toward the quota.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "mrz"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Photo or camera frame showing the document's MRZ",
+                        "type": "text/plain"
+                      },
+                      "key": "image",
+                      "type": "file",
+                      "contentType": "image/jpeg, image/png, image/webp"
+                    }
+                  ]
+                }
+              },
+              "status": "Unprocessable Entity (WebDAV) (RFC 4918)",
+              "code": 422,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"blurry\",\n  \"reason\": \"<string,null>\",\n  \"ms\": \"<integer>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "3e023283-6f64-4d7a-b1a4-2b0478c153f9",
+              "name": "The month's scans are used up; resets on the 1st (UTC)",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "mrz"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Photo or camera frame showing the document's MRZ",
+                        "type": "text/plain"
+                      },
+                      "key": "image",
+                      "type": "file",
+                      "contentType": "image/jpeg, image/png, image/webp"
+                    }
+                  ]
+                }
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"<string>\",\n  \"limit\": \"<integer>\",\n  \"used\": \"<integer>\",\n  \"message\": \"<string>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "559ab8e8-5a31-44b7-b0a2-d1b4d055cbf4",
+              "name": "The reader did not answer; retry",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "v1",
+                    "mrz"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "multipart/form-data"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  },
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  }
+                ],
+                "method": "POST",
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "description": {
+                        "content": "(Required) Photo or camera frame showing the document's MRZ",
+                        "type": "text/plain"
+                      },
+                      "key": "image",
+                      "type": "file",
+                      "contentType": "image/jpeg, image/png, image/webp"
+                    }
+                  ]
+                }
+              },
+              "status": "Bad Gateway",
+              "code": 502,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"<string>\",\n  \"message\": \"<string>\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ]
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "type": "any",
+        "value": "{{bearerToken}}",
+        "key": "token"
+      }
+    ]
+  },
+  "event": [],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "https://vend-id.com"
+    },
+    {
+      "key": "bearerToken",
+      "value": "vid_YOUR_KEY"
+    }
+  ],
+  "info": {
+    "_postman_id": "eb79b4e8-e8f9-4701-b272-ae016d628541",
+    "name": "VendID MRZ API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": "VendID MRZ API: passport and ID card MRZ to JSON. Free key (500 scans/month) at https://vend-id.com/sdk#get-key. Set the collection variable bearerToken to your key. Generated from openapi/openapi.yaml."
+  }
+}

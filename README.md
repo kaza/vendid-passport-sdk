@@ -62,6 +62,7 @@ All of them read the key from `VENDID_API_KEY` (the web example asks for it) and
 - [API reference](docs/api.md): request, response fields, error codes, limits, `mrz.js`
 - [JSON Schema of the response](docs/response.schema.json)
 - [OpenAPI 3.1 spec](openapi/openapi.yaml): import into Postman, Insomnia or a code generator
+- [Postman collection](openapi/vendid-mrz-api.postman_collection.json): set `bearerToken` to your key
 - [Full docs on vend-id.com](https://vend-id.com/sdk/docs) · [llms.txt](https://vend-id.com/llms.txt) for AI coding assistants
 - [Roadmap](ROADMAP.md): what is live, what comes next
 
