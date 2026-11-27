@@ -1,0 +1,29 @@
+:root {
+  --ink: #17181c; --muted: #5b5f6a; --line: #d9dce2; --bg: #f5f6f8; --card: #fff;
+  --green: #23843b; --red: #b3261e; --amber: #8a5a00;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root { --ink: #e8e9ed; --muted: #a0a4ae; --line: #3a3d45; --bg: #121317; --card: #1b1d22; --green: #4cc26a; --red: #ff8a80; --amber: #f0b84a; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+main { max-width: 760px; margin: 0 auto; padding: 24px 16px 64px; }
+h1 { margin: 0 0 6px; font-size: 28px; }
+h2 { font-size: 17px; margin: 0 0 10px; }
+.lead { color: var(--muted); margin: 0 0 20px; }
+a { color: var(--green); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 18px; margin-bottom: 16px; }
+label { display: block; font-size: 14px; color: var(--muted); }
+input, select { display: block; width: 100%; margin-top: 4px; padding: 9px 10px; font: inherit; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 8px; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 18px; }
+.wide { grid-column: 1 / -1; }
+.hint { font-size: 14px; color: var(--muted); margin: 6px 0 14px; }
+.buttons { display: flex; flex-wrap: wrap; gap: 10px; }
+button, .button { display: inline-block; padding: 10px 14px; font: inherit; font-size: 15px; font-weight: 600; color: var(--ink); background: var(--card); border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
+.primary { background: var(--green); border-color: var(--green); color: #fff; }
+#status { min-height: 1.5em; margin: 12px 0 0; font-size: 15px; }
+#status.ok { color: var(--green); }
+#status.error { color: var(--red); }
+.warn { color: var(--amber); font-weight: 600; }
+pre { background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 12px; overflow-x: auto; font-size: 13px; }

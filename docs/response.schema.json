@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/kaza/vendid-passport-sdk/blob/main/docs/response.schema.json",
+  "title": "VendID MRZ API: 200 response of POST /v1/mrz",
+  "type": "object",
+  "required": ["format", "document_type", "issuing_state", "surname", "given_names", "document_number", "nationality",
+    "birth_date", "sex", "expiry_date", "optional_data", "check_digits", "mrz", "ms"],
+  "properties": {
+    "format": { "enum": ["TD1", "TD2", "TD3"], "description": "TD3 passport (2 lines of 44), TD1 ID card (3 lines of 30), TD2 (2 lines of 36)" },
+    "document_type": { "type": "string", "description": "First 1-2 characters of the MRZ, e.g. P (passport), I, ID, A, C" },
+    "issuing_state": { "type": "string", "description": "ICAO 9303 three-letter code of the issuing state or organisation, e.g. AUT, D, UTO" },
+    "surname": { "type": "string", "description": "Primary identifier, filler '<' turned into spaces" },
+    "given_names": { "type": "string", "description": "Secondary identifier, names separated by single spaces" },
+    "document_number": { "type": "string", "description": "Document number without filler characters" },
+    "nationality": { "type": "string", "description": "ICAO 9303 three-letter nationality code" },
+    "birth_date": { "type": ["string", "null"], "format": "date", "description": "YYYY-MM-DD; null if the MRZ date does not exist (e.g. unknown day written as <<)" },
+    "sex": { "type": "string", "description": "F, M, X, or empty when the MRZ has '<' (unspecified)" },
+    "expiry_date": { "type": ["string", "null"], "format": "date", "description": "YYYY-MM-DD; null if the MRZ date does not exist" },
+    "optional_data": { "type": "string", "description": "Optional data field(s) as printed, e.g. a personal number" },
+    "check_digits": {
+      "type": "object",
+      "required": ["document_number", "birth_date", "expiry_date", "composite"],
+      "properties": {
+        "document_number": { "type": "boolean" },
+        "birth_date": { "type": "boolean" },
+        "expiry_date": { "type": "boolean" },
+        "composite": { "type": "boolean" }
+      },
+      "additionalProperties": false,
+      "description": "ICAO 9303 check digits, recomputed. A 200 answer always has all four true."
+    },
+    "mrz": { "type": "array", "items": { "type": "string" }, "minItems": 2, "maxItems": 3, "description": "The raw MRZ lines as read" },
+    "ms": { "type": "integer", "minimum": 0, "description": "Time spent reading on our side, in milliseconds" },
+    "specimen": { "const": true, "description": "Present only when the ICAO specimen passport (L898902C3) was read; such reads are free" }
+  },
+  "additionalProperties": false
+}
